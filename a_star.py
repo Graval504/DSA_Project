@@ -4,7 +4,7 @@ from typing import *
 import pandas as pd
 import math
 
-def a_star(graph:Dict[str,Dict[str,List]], start:str, end:str):
+def a_star(graph:Dict[str,Dict[str,List]], start:str, end:str) -> Tuple[list,int]:
     open_list:List[Subway_node] = []
     close_list:List[Subway_node] = []
     arrival = False
@@ -31,8 +31,8 @@ def a_star(graph:Dict[str,Dict[str,List]], start:str, end:str):
         if close_list[-1].station == end:
             arrival = True
     result = close_list[-1].get_path()
-
-    return result
+    cost = close_list[-1].cost
+    return result,cost
 
 class Subway_node():
     location_sheet = pd.read_csv("subway_location.csv",header=None)
@@ -91,4 +91,8 @@ def has_station(station_list:List[Subway_node],target_station:Subway_node) -> Su
             return station
     return None
 
-print(a_star(data,"용산","종각"))
+start = input('출발지: ')
+end = input('도착지: ')
+
+result = a_star(data, start, end)
+print(result)
