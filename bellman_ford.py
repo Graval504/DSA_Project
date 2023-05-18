@@ -17,6 +17,7 @@ def bellman_ford(graph, start, end):
                 child_station = (station, line)
                 if dist[child_station] > dist[parent_station] + cost:
                     dist[child_station]  = dist[parent_station] + cost
+                    parent[child_station] = parent_station
 
 
     min_cost = INF
