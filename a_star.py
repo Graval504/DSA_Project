@@ -54,6 +54,9 @@ class Subway_node():
         while parent != None:
             result.append((parent.line,parent.station))
             parent = parent.parent
+        result = result[::-1]
+        if result[0][1] == result[1][1]:
+            result.pop(0)
         return result
     
     def update_node(self,updated_node:Subway_node):
@@ -80,8 +83,7 @@ class Subway_node():
     
     def get_neighbors(self,graph) -> List[Tuple[str,str,int]]:
         return graph[self.station][self.line]
-with open('subway(unequal).json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
+
 
 
 
@@ -91,6 +93,10 @@ def has_station(station_list:List[Subway_node],target_station:Subway_node) -> Su
             return station
     return None
 
+filename = ["equal","unequal","real"]
+index = int(input("0 : 역간 거리 동일, 1 : 역간 거리 무작위, 2: 역간 거리 실제 반영\n역간거리:"))
+with open(f'subway({filename[index]}).json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
 start = input('출발지: ')
 end = input('도착지: ')
 
