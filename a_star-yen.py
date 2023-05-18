@@ -3,8 +3,36 @@ import json
 from typing import *
 import pandas as pd
 import math
+from copy import deepcopy
 
-def a_star(graph:Dict[str,Dict[str,List]], start:str, end:str) -> Tuple[list,int]:
+def a_star_yen(graph:Dict[str,Dict[str,List]], start:str, end:str, K:int = 1) -> List[Tuple[list,int]]:
+    result = []
+    close_list = _a_star(graph,start,end)
+    path:List[Subway_node] = []
+    node = close_list[-1]
+    result.append((node.get_path(),node.cost))
+    while node.parent != None:
+        path.append(node)
+        node = node.parent
+    path.sort(key= lambda x:x.cost-x.parent.cost)
+
+    for node in path:
+        if K <= 1:
+            result.sort(key=lambda x:x[1])
+            return result
+        data = deepcopy(graph)
+        for station in data[node.parent.station][node.parent.line]:
+            if station[0] == node.station:
+                data[node.parent.station][node.parent.line].remove(station)
+                break
+        added_path = _a_star(data,start,end)[-1]
+        result.append((added_path.get_path(),added_path.cost))
+        K -= 1
+        
+    result.sort(key=lambda x:x[1])
+    return result
+
+def _a_star(graph:Dict[str,Dict[str,List]], start:str, end:str) -> List[Subway_node]:
     open_list:List[Subway_node] = []
     close_list:List[Subway_node] = []
     arrival = False
@@ -30,9 +58,7 @@ def a_star(graph:Dict[str,Dict[str,List]], start:str, end:str) -> Tuple[list,int
         close_list.append(min_score_node)
         if close_list[-1].station == end:
             arrival = True
-    result = close_list[-1].get_path()
-    cost = close_list[-1].cost
-    return result,cost
+    return close_list
 
 class Subway_node():
     location_sheet = pd.read_csv("subway_location.csv",header=None)
@@ -83,7 +109,8 @@ class Subway_node():
     
     def get_neighbors(self,graph) -> List[Tuple[str,str,int]]:
         return graph[self.station][self.line]
-
+with open('subway(unequal).json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
 
 
 
@@ -99,6 +126,7 @@ with open(f'subway({filename[index]}).json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 start = input('출발지:')
 end = input('도착지:')
-
-result = a_star(data, start, end)
-print(result)
+K = int(input("경로개수:"))
+result = a_star_yen(data, start, end,K)
+for path in result:
+    print(path)

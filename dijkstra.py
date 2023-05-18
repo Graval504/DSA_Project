@@ -39,9 +39,10 @@ def dijkstra(graph, start, end):
     return min_cost, paths[(end, min_line)]
 
 
-with open('subway(unequal).json', 'r', encoding='utf-8') as f:
+filename = ["equal","unequal","real"]
+index = int(input("0 : 역간 거리 동일, 1 : 역간 거리 무작위, 2: 역간 거리 실제 반영\n역간거리:"))
+with open(f'subway({filename[index]}).json', 'r', encoding='utf-8') as f:
     data = json.load(f)
-
 start = input('출발지: ')
 end = input('도착지: ')
 
