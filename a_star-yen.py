@@ -26,8 +26,10 @@ def a_star_yen(graph:Dict[str,Dict[str,List]], start:str, end:str, K:int = 1) ->
                 data[node.parent.station][node.parent.line].remove(station)
                 break
         added_path = _a_star(data,start,end)[-1]
-        result.append((added_path.get_path(),added_path.cost))
-        K -= 1
+        appended = (added_path.get_path(),added_path.cost)
+        if not appended in result:
+            result.append(appended)
+            K -= 1
         
     result.sort(key=lambda x:x[1])
     return result
