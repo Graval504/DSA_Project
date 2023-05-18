@@ -130,5 +130,16 @@ start = input('출발지:')
 end = input('도착지:')
 K = int(input("경로개수:"))
 result = a_star_yen(data, start, end,K)
-for path in result:
-    print(path)
+
+for i, path in enumerate(result):
+    print(f'\n----- {i + 1}번째 경로 -----')
+    print('소요시간:', path[1])
+
+    print(start, end='')
+    cur_line = path[0][0][0]
+    for index, data in enumerate(path[0]):
+        if data[1] == start: continue
+        print('(환승)' if cur_line != data[0] else '-%s' % data[1], end='')
+        cur_line = data[0]
+
+    print()

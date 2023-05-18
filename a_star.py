@@ -101,4 +101,14 @@ start = input('출발지:')
 end = input('도착지:')
 
 result = a_star(data, start, end)
-print(result)
+
+print('소요시간:', result[1])
+
+print(start, end='')
+cur_line = result[0][0][0]
+for index, data in enumerate(result[0]):
+    if data[1] == start: continue
+    print('(환승)' if cur_line != data[0] else '-%s' % data[1], end='')
+    cur_line = data[0]
+
+print()
