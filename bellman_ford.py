@@ -54,7 +54,7 @@ print(start, end='')
 cur_line = result[1][0][1]
 for index, data in enumerate(result[1]):
     if data[0] == start: continue
-    print('(환승)' if cur_line != data[1] else '-%s' % data[0], end='')
+    print(f"({cur_line[-1]}->{data[1][-1]} 환승)" if cur_line != data[1] else '-%s' % data[0], end='')
     cur_line = data[1]
 
 print()

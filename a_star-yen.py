@@ -139,7 +139,7 @@ for i, path in enumerate(result):
     cur_line = path[0][0][0]
     for index, data in enumerate(path[0]):
         if data[1] == start: continue
-        print('(환승)' if cur_line != data[0] else '-%s' % data[1], end='')
+        print(f"({cur_line[-1]}->{data[0][-1]} 환승)" if cur_line != data[0] else '-%s' % data[1], end='')
         cur_line = data[0]
 
     print()
