@@ -48,3 +48,4 @@ for index, data in  enumerate(result):
 
     print("(%s %s)"%(data[0],data[1][-1]), end=' ') #역 및 호선 출력
     current_line = data[1][-1]
+print("\n")
