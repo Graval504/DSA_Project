@@ -37,7 +37,7 @@ end = input('도착지: ')
 #--------------------------------#
 result = bfs(data, start, end)
 print('출발역: ','%s호선' %result[0][1], result[0][0],)
-print('총 소요시간: %s분'% (len(result)-1))
+print('총 소요시간: %s분'% (2*(len(result)-1)))
 print('경로 : ',end='')
 print("(%s %s)"%(result[0][0],result[0][1][-1]), end=' ')
 
